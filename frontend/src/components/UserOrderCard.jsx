@@ -41,26 +41,26 @@ function UserOrderCard({ data }) {
                     </p>
                 </div>
                 <div className='text-right'>
-                    {data.paymentMethod == "cod" ? <p className='text-sm text-gray-500'>{data.paymentMethod?.toUpperCase()}</p> : <p className='text-sm text-gray-500 font-semibold'>Payment: {data.payment ? "true" : "false"}</p>}
+                    {data?.paymentMethod === "cod" ? <p className='text-sm text-gray-500'>{data?.paymentMethod?.toUpperCase()}</p> : <p className='text-sm text-gray-500 font-semibold'>Payment: {data?.payment ? "true" : "false"}</p>}
 
-                    <p className='font-medium text-blue-600'>{data.shopOrders?.[0].status}</p>
+                    <p className='font-medium text-blue-600'>{data?.shopOrders?.[0]?.status}</p>
                 </div>
             </div>
 
-            {data.shopOrders.map((shopOrder, index) => (
-                <div className='"border rounded-lg p-3 bg-[#fffaf7] space-y-3' key={index}>
-                    <p>{shopOrder.shop.name}</p>
+            {data?.shopOrders?.map((shopOrder, index) => (
+                <div className='border rounded-lg p-3 bg-[#fffaf7] space-y-3' key={index}>
+                    <p>{shopOrder?.shop?.name}</p>
 
                     <div className='flex space-x-4 overflow-x-auto pb-2'>
-                        {shopOrder.shopOrderItems.map((item, index) => (
-                            <div key={index} className='flex-shrink-0 w-40 border rounded-lg p-2 bg-white"'>
-                                <img src={item.item.image} alt="" className='w-full h-24 object-cover rounded' />
-                                <p className='text-sm font-semibold mt-1'>{item.name}</p>
-                                <p className='text-xs text-gray-500'>Qty: {item.quantity} x ₹{item.price}</p>
+                        {shopOrder?.shopOrderItems?.map((item, idx) => (
+                            <div key={idx} className='flex-shrink-0 w-40 border rounded-lg p-2 bg-white'>
+                                <img src={item?.item?.image} alt="" className='w-full h-24 object-cover rounded' />
+                                <p className='text-sm font-semibold mt-1'>{item?.name}</p>
+                                <p className='text-xs text-gray-500'>Qty: {item?.quantity} x ₹{item?.price}</p>
 
-                                {shopOrder.status == "delivered" && <div className='flex space-x-1 mt-2'>
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <button className={`text-lg ${selectedRating[item.item._id] >= star ? 'text-yellow-400' : 'text-gray-400'}`} onClick={() => handleRating(item.item._id,star)}>★</button>
+                                {shopOrder?.status === "delivered" && <div className='flex space-x-1 mt-2'>
+                                    {[1, 2, 3, 4, 5].map((star, sIdx) => (
+                                        <button key={sIdx} className={`text-lg ${selectedRating[item?.item?._id] >= star ? 'text-yellow-400' : 'text-gray-400'}`} onClick={() => handleRating(item?.item?._id, star)}>★</button>
                                     ))}
                                 </div>}
 

@@ -7,11 +7,13 @@ import { useState } from 'react'
 import { IoIosArrowRoundBack } from "react-icons/io";
 import DeliveryBoyTracking from '../components/DeliveryBoyTracking'
 import { useSelector } from 'react-redux'
+import { getSocket } from '../socket'
+
 function TrackOrderPage() {
     const { orderId } = useParams()
     const [currentOrder, setCurrentOrder] = useState() 
     const navigate = useNavigate()
-    const {socket}=useSelector(state=>state.user)
+    const socket = getSocket()
     const [liveLocations,setLiveLocations]=useState({})
     const handleGetOrder = async () => {
         try {
@@ -23,7 +25,7 @@ function TrackOrderPage() {
     }
 
     useEffect(()=>{
-socket.on('updateDeliveryLocation',({deliveryBoyId,latitude,longitude})=>{
+socket?.on('updateDeliveryLocation',({deliveryBoyId,latitude,longitude})=>{
 setLiveLocations(prev=>({
   ...prev,
   [deliveryBoyId]:{lat:latitude,lon:longitude}

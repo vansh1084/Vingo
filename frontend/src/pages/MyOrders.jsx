@@ -5,21 +5,22 @@ import { useNavigate } from 'react-router-dom';
 import UserOrderCard from '../components/UserOrderCard';
 import OwnerOrderCard from '../components/OwnerOrderCard';
 import { setMyOrders, updateOrderStatus, updateRealtimeOrderStatus } from '../redux/userSlice';
-
+import { getSocket } from '../socket';
 
 function MyOrders() {
-  const { userData, myOrders,socket} = useSelector(state => state.user)
+  const { userData, myOrders } = useSelector(state => state.user)
+  const socket = getSocket()
   const navigate = useNavigate()
 const dispatch=useDispatch()
   useEffect(()=>{
 socket?.on('newOrder',(data)=>{
-if(data.shopOrders?.owner._id==userData._id){
+if(userData && data?.shopOrders?.owner?._id == userData._id){
 dispatch(setMyOrders([data,...myOrders]))
 }
 })
 
 socket?.on('update-status',({orderId,shopId,status,userId})=>{
-if(userId==userData._id){
+if(userData && userId == userData._id){
   dispatch(updateRealtimeOrderStatus({orderId,shopId,status}))
 }
 })
@@ -45,12 +46,12 @@ return ()=>{
         </div>
         <div className='space-y-6'>
           {myOrders?.map((order,index)=>(
-            userData.role=="user" ?
+            userData?.role === "user" ?
             (
               <UserOrderCard data={order} key={index}/>
             )
             :
-            userData.role=="owner"? (
+            userData?.role === "owner" ? (
               <OwnerOrderCard data={order} key={index}/>
             )
             :
