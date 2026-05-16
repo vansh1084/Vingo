@@ -24,7 +24,8 @@ import Shop from './pages/Shop'
 import { useEffect } from 'react'
 import { initializeSocket } from './socket'
 
-export const serverUrl = "http://localhost:8000"
+// export const serverUrl = "http://localhost:8000"
+export const API = import.meta.env.VITE_API_URL;
 function App() {
   const { userData } = useSelector(state => state.user)
   const dispatch = useDispatch()
